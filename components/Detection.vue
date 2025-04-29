@@ -1,7 +1,18 @@
 <template>
-    <div class="wrapper">
-      <video ref="video" class="hidden" width="600" autoplay></video>
-      <canvas ref="canvas" width="600" height="400"></canvas>
+    <div class="flex flex-col items-center gap-4 min-h-screen justify-center relative">
+      <input
+        v-model="color"
+        type="text"
+        placeholder="Insert the willing color"
+        class="mt-4 text-white hover:text-black hover:bg-white text-center border-2 w-[800px]"
+        :style="{ backgroundColor: color, borderColor: color }"
+      />
+  
+      <!-- Обёртка для выравнивания видео и канваса -->
+      <div class="relative w-[600px] h-[400px]">
+        <video ref="video" class="absolute top-0 left-0 w-full h-full object-cover" autoplay muted playsinline></video>
+        <canvas ref="canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none"></canvas>
+      </div>
     </div>
   </template>
   
@@ -14,6 +25,7 @@
     tf.setBackend('webgl');
   }
   
+  const color = ref<string>('red');
   const video = ref<HTMLVideoElement | null>(null);
   const canvas = ref<HTMLCanvasElement | null>(null);
   let model: cocoSsd.ObjectDetection;
@@ -50,8 +62,8 @@
           ctx.beginPath();
           ctx.rect(x, y, width, height);
           ctx.lineWidth = 2;
-          ctx.strokeStyle = 'red';
-          ctx.fillStyle = 'red';
+          ctx.strokeStyle = color.value;
+          ctx.fillStyle = color.value;
           ctx.stroke();
           ctx.fillText(
             `${prediction.class} (${Math.round(prediction.score * 100)}%)`,
@@ -72,29 +84,4 @@
     detectFrame();
   });
   </script>
-  
-  <style scoped>
-  .wrapper {
-    position: relative;
-    width: 600px;
-    height: 400px;
-    margin: 0 auto;
-    top: 50px;
-    border: 2px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f8f8f8;
-    border-radius: 12px;
-  }
-  
-  video,
-  canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  
-  canvas {
-    pointer-events: none;
-  }
-  </style>
   
