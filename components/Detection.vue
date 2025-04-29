@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center gap-4 min-h-screen justify-center relative">
+    <div class="flex flex-col items-center gap-4 min-h-screen justify-center bg-[#fef6e4]">
       <input
         v-model="color"
         type="text"
@@ -8,7 +8,7 @@
         :style="{ backgroundColor: color, borderColor: color }"
       />
   
-      <!-- Обёртка для выравнивания видео и канваса -->
+      <!-- Обёртка для видео и канваса -->
       <div class="relative w-[600px] h-[400px]">
         <video ref="video" class="absolute top-0 left-0 w-full h-full object-cover" autoplay muted playsinline></video>
         <canvas ref="canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none"></canvas>
@@ -25,7 +25,7 @@
     tf.setBackend('webgl');
   }
   
-  const color = ref<string>('red');
+  const color = ref<string>('lightblue');
   const video = ref<HTMLVideoElement | null>(null);
   const canvas = ref<HTMLCanvasElement | null>(null);
   let model: cocoSsd.ObjectDetection;
